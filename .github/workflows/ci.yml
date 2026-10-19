@@ -1,0 +1,40 @@
+
+name: Pemeriksaan Aplikasi
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mengambil kode proyek
+        uses: actions/checkout@v4
+
+      - name: Menyiapkan Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Memeriksa sintaks Python
+        run: python -m compileall -q main.py tasks.py data.py validation.py summary.py
+
+  sast-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mengambil kode proyek
+        uses: actions/checkout@v4
+
+      - name: Menyiapkan Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Memasang Bandit
+        run: pip install bandit
+
+      - name: Memindai keamanan kode
+        run: bandit -r main.py tasks.py data.py validation.py summary.py
