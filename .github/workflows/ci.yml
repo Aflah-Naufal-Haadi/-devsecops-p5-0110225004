@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: Build dan Pengujian
     runs-on: ubuntu-latest
     steps:
       - name: Mengambil kode proyek
@@ -21,12 +22,12 @@ jobs:
 
       - name: Memeriksa sintaks Python
         run: python -m compileall -q main.py tasks.py data.py validation.py summary.py
-        
+
       - name: Menjalankan pengujian otomatis
         run: python -m unittest test_tasks -v
 
-
   sast-scan:
+    name: Pemindaian Keamanan Kode
     runs-on: ubuntu-latest
     steps:
       - name: Mengambil kode proyek
@@ -43,3 +44,10 @@ jobs:
       - name: Memindai keamanan kode
         run: bandit -r main.py tasks.py data.py validation.py summary.py --severity-level medium --confidence-level medium
 
+  quality-gate:
+    name: Pemeriksaan Quality Gate
+    needs: [build, sast-scan]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Memastikan semua pemeriksaan lulus
+        run: echo "Quality Gate lulus: build, pengujian, dan SAST berhasil."
