@@ -3,9 +3,11 @@ name: Pemeriksaan Aplikasi
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build:
@@ -46,8 +48,10 @@ jobs:
 
   quality-gate:
     name: Pemeriksaan Quality Gate
-    needs: [build, sast-scan]
+    needs:
+      - build
+      - sast-scan
     runs-on: ubuntu-latest
     steps:
       - name: Memastikan semua pemeriksaan lulus
-        run: echo "Quality Gate lulus: build, pengujian, dan SAST berhasil."
+        run: 'echo "Quality Gate lulus: build, pengujian, dan SAST berhasil."'
