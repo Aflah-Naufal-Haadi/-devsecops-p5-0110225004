@@ -1,5 +1,5 @@
 
-name: Pemeriksaan Aplikasi
+name: Pipeline DevSecOps
 
 on:
   push:
@@ -30,6 +30,7 @@ jobs:
 
   sast-scan:
     name: Pemindaian Keamanan Kode
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Mengambil kode proyek
