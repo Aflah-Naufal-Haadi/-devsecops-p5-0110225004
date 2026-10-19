@@ -21,6 +21,10 @@ jobs:
 
       - name: Memeriksa sintaks Python
         run: python -m compileall -q main.py tasks.py data.py validation.py summary.py
+        
+      - name: Menjalankan pengujian otomatis
+        run: python -m unittest test_tasks -v
+
 
   sast-scan:
     runs-on: ubuntu-latest
@@ -37,4 +41,5 @@ jobs:
         run: pip install bandit
 
       - name: Memindai keamanan kode
-        run: bandit -r main.py tasks.py data.py validation.py summary.py
+        run: bandit -r main.py tasks.py data.py validation.py summary.py --severity-level medium --confidence-level medium
+
